@@ -9,6 +9,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { AppComponent } from './app.component';
 import 'hammerjs';
+import { DishService } from './services/dish.service';
 import { MenuComponent } from './menu/menu.component';
 import { DishdetailsComponent } from './dishdetails/dishdetails.component'
 
@@ -28,7 +29,7 @@ import { DishdetailsComponent } from './dishdetails/dishdetails.component'
     MatCardModule,
     MatButtonModule,
   ],
-  providers: [],
+  providers: [DishService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
