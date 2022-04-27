@@ -48,5 +48,23 @@
         </mat-list>
       </mat-card-content>
   </div>
-
 </div>
+<form novalidate [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <div [style.margin-left.rem]="2">
+    <mat-form-field class="half-width">
+      <input matInput formControlName="author" placeholder="author" type="text" autocomplete="no" required>
+      <mat-error *ngIf="errorMessage['author']">{{errorMessage['author']}}</mat-error>
+    </mat-form-field>
+  </div>
+  <mat-slider thumbLabel formControlName="rating" placeholder="rating" min="1" max="5" [style.margin-left.rem]="2"></mat-slider>
+  <mat-error *ngIf="errorMessage['rating']">{{errorMessage['rating']}}</mat-error>
+  <div [style.margin-left.rem]="2">
+    <mat-form-field class="half-width">
+      <input matInput formControlName="comment" placeholder="comment" type="text" autocomplete="no" required>
+      <mat-error *ngIf="errorMessage['comment']">{{errorMessage['comment']}}</mat-error>
+    </mat-form-field>
+  </div>
+  <button type="submit" mat-button class="background-primary text-floral-white" [style.margin-left.rem,]="2">Submit</button>
+  
+</form>
+

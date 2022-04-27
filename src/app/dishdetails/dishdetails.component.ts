@@ -4,6 +4,7 @@ import { DishService } from '../services/dish.service';
 import { Params, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { switchMap } from 'rxjs/operators';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-dishdetails',
   templateUrl: './dishdetails.component.html',
@@ -11,19 +12,58 @@ import { switchMap } from 'rxjs/operators';
 })
 export class DishdetailsComponent implements OnInit {
 
+  formGroup!: FormGroup
   dish!: Dish;
   dishIds!: string[];
   prev!: string;
   next!: string;
+  errorMessage: any = {
+    rating: "",
+    comment: "",
+    author : ""
+  }
 
   constructor(private dishservice: DishService,
     private route: ActivatedRoute,
-    private location: Location) { }
+    private location: Location,
+    private fb: FormBuilder) {
+      this.createForm()
+     }
 
   ngOnInit() {
     this.dishservice.getDishIds().subscribe(dishIds => this.dishIds = dishIds);
     this.route.params.pipe(switchMap((params: Params) => this.dishservice.getDish(params['id'])))
     .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); });
+  }
+
+  createForm() {
+    this.formGroup = this.fb.group({
+      rating: [5, [Validators.required] ],
+      comment: ['', [Validators.required] ],
+      author: ['', [Validators.required] ],
+      date: [null, [] ]
+    });
+  }
+
+  onSubmit() {
+    let valid = true
+    for (const key in this.errorMessage) {
+      if (this.formGroup.controls[key].errors) {
+        this.errorMessage[key] = "There is an error in this field"
+        valid = false
+      }
+    }
+
+    if (valid) {
+      this.formGroup.controls["date"].setValue(new Date)
+      this.dish.comments.push(this.formGroup.value)
+      this.formGroup.reset({
+        rating: 5,
+        comment: "",
+        author: "",
+        date: null
+      })
+    }
   }
 
   setPrevNext(dishId: string) {
