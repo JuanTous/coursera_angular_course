@@ -33,6 +33,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { HttpClientModule } from '@angular/common/http';
 import { baseURL } from './shared/baseurl';
 import { PromotionService } from './services/promotion.service';
+import { HighlightDirective } from './directives/highlight.directive';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { PromotionService } from './services/promotion.service';
     AboutComponent,
     HomeComponent,
     ContactComponent,
-    LoginComponent
+    LoginComponent,
+    HighlightDirective
   ],
   imports: [
     BrowserModule,
