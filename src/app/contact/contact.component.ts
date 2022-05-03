@@ -2,8 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Feedback, ContactType } from '../shared/feedback';
 import { ViewChild } from '@angular/core';
+import { flyInOut } from '../animations/app.animation';
 
 @Component({
+    // tslint:disable-next-line:use-host-property-decorator
+    host: {
+      '[@flyInOut]': 'true',
+      'style': 'display: block;'
+      },
+      animations: [
+        flyInOut()
+      ],
   selector: 'app-contact',
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.scss']
