@@ -79,5 +79,11 @@
       </p>
       <button type="submit" mat-button class="background-primary text-floral-white">Submit</button>
     </form>
+    <div *ngIf="feedbackLoading; then mess">
+      <mat-spinner></mat-spinner><h4>Loading . . . Please Wait</h4>
+    </div>
+    <ng-template #mess>
+      <h4>Feedback delivered!</h4>
+    </ng-template>
   </div>
 </div>

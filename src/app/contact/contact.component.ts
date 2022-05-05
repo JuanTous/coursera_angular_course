@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Feedback, ContactType } from '../shared/feedback';
 import { ViewChild } from '@angular/core';
 import { flyInOut } from '../animations/app.animation';
+import { FeedbackService } from '../services/feedback.service';
 
 @Component({
     // tslint:disable-next-line:use-host-property-decorator
@@ -23,6 +24,7 @@ export class ContactComponent implements OnInit {
   feedbackForm!: FormGroup;
   feedback!: Feedback;
   contactType = ContactType;
+  feedbackLoading: any = false;
   formErrors: any = {
     'firstname': '',
     'lastname': '',
@@ -51,7 +53,7 @@ export class ContactComponent implements OnInit {
     },
   };
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private service: FeedbackService) {
     this.createForm();
   }
 
@@ -77,16 +79,22 @@ export class ContactComponent implements OnInit {
   onSubmit() {
     this.feedback = this.feedbackForm.value;
     console.log(this.feedback);
-    this.feedbackForm.reset({
-      firstname: '',
-      lastname: '',
-      telnum: '',
-      email: '',
-      agree: false,
-      contacttype: 'None',
-      message: ''
-    });
-    this.feedbackFormDirective.resetForm();
+    this.feedbackLoading = true
+    this.service.postFeedback(this.feedback).subscribe(res => {
+      setTimeout(() => {
+        this.feedbackForm.reset({
+          firstname: '',
+          lastname: '',
+          telnum: '',
+          email: '',
+          agree: false,
+          contacttype: 'None',
+          message: ''
+        });
+        this.feedbackFormDirective.resetForm();
+        this.feedbackLoading = false;
+      }, 5000);
+    })
   }
 
   onValueChanged(data?: any) {
